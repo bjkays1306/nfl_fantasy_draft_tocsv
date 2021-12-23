@@ -1,9 +1,10 @@
 import config
 import csv
-from bs4 import BeautifulSoup
-import get_soup as gs
+from util import get_soup as gs
 
-soup = gs.get_draft_results(config.LEAGUE_ID)
+league_id = config.LEAGUE_ID
+
+soup = gs.get_draft_results(league_id)
 
 players = soup.findAll('a', class_='playerNameFull')
 
