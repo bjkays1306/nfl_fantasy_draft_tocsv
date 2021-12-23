@@ -1,28 +1,11 @@
 import config
 import csv
-import requests
 from bs4 import BeautifulSoup
+import get_soup as gs
 
-league_id = config.LEAGUE_ID
+soup = gs.get_draft_results(config.LEAGUE_ID)
 
-if not league_id:
-    raise NameError('Must provide a league ID to generate draft order.')
-
-url = f"https://fantasy.nfl.com/league/{league_id}/draftresults?draftResultsDetail=0&draftResultsTab=round&draftResultsType=results"
-
-# Get draft data from Request
-r = requests.get(url)
-
-# Raise exception if connection is not successful
-if r.status_code != 200:
-    raise ConnectionRefusedError(f"""Unable to connect to Fantasy Football Draft Page. 
-    Make sure the league is set to public or that you're logged into NFL.com fantasy football.
-    HTTP Request Status code = {r.status_code}""")
-
-# Parsing the HTML to only draft results div
-s = BeautifulSoup(r.content, 'html.parser').find('div', class_='results')
-
-players = s.findAll('a', class_='playerNameFull')
+players = soup.findAll('a', class_='playerNameFull')
 
 draft_dict = {}
 for i in players:
