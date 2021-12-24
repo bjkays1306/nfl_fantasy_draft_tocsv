@@ -35,7 +35,7 @@ def export_team_rosters_to_csv(draft_results: dict):
                          'PlayerName',
                          'DraftPosition',
                          'DraftRound',
-                         'FantasyTeamID',
+                         'DraftTeamID',
                          'FantasyTeam'])
         # Write Data
         for k, v in draft_results.items():
@@ -44,7 +44,7 @@ def export_team_rosters_to_csv(draft_results: dict):
                  v['PlayerName'],
                  v['DraftPosition'],
                  v['DraftRound'],
-                 v['FantasyTeamID'],
+                 v['DraftTeamID'],
                  v['FantasyTeam']])
 
 
