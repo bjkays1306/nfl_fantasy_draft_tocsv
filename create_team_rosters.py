@@ -46,13 +46,13 @@ def export_team_rosters_to_csv(team_rosters):
         # Create Header
         writer.writerow(['player_id',
                          'PlayerName',
-                         'TeamIdNumber'])
+                         'FantasyTeamId'])
         # Write Data
         for k, v in team_rosters.items():
             writer.writerow(
                             [k,
                              v['PlayerName'],
-                             v['TeamIdNumber']])
+                             v['FantasyTeamId']])
 
 
 def main():
