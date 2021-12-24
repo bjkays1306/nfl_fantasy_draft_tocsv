@@ -20,10 +20,10 @@ def get_number_of_teams(league_id: int):
             return team_id_numbers
 
 
-def create_team_rosters_dict(league_id: int, team_id_numbers: range):
+def create_team_rosters_dict(league_id: int, number_of_teams: range):
     player_dict = {}
 
-    for team_id_number in team_id_numbers:
+    for team_id_number in number_of_teams:
         team_page = gs.get_team_roster_by_team_id(league_id, team_id_number)
         team_page_players = team_page.find_all('a', class_='playerCard')
 
@@ -40,7 +40,7 @@ def create_team_rosters_dict(league_id: int, team_id_numbers: range):
     return player_dict
 
 
-def export_team_rosters_to_csv(team_rosters):
+def export_team_rosters_to_csv(team_rosters: dict):
     with open('nfl_fantasy_player_rosters.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         # Create Header

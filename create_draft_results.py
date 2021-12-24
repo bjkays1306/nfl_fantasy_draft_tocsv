@@ -5,7 +5,7 @@ import config
 LEAGUE_ID = config.LEAGUE_ID
 
 
-def create_draft_results_dict(league_id):
+def create_draft_results_dict(league_id: int):
     soup = gs.get_draft_results(league_id)
 
     players = soup.findAll('a', class_='playerNameFull')
