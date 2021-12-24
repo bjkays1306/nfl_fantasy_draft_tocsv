@@ -33,3 +33,33 @@ def get_all_taken_players(league_id):
     s = BeautifulSoup(r.content, 'html.parser')
 
     return s
+
+
+def get_league_settings(league_id):
+    url = f"https://fantasy.nfl.com/league/{league_id}/settings"
+
+    r = requests.get(url)
+
+    if r.status_code != 200:
+        raise ConnectionRefusedError(f"""Unable to connect to NFL Fantasy Football. 
+        Make sure the league is set to public or that you're logged into NFL.com fantasy football.
+        HTTP Request Status code = {r.status_code}""")
+
+    s = BeautifulSoup(r.content, 'html.parser')
+
+    return s
+
+
+def get_team_roster_by_team_id(league_id, team_id_number):
+    url = f"https://fantasy.nfl.com/league/{league_id}/team/{team_id_number}"
+
+    r = requests.get(url)
+
+    if r.status_code != 200:
+        raise ConnectionRefusedError(f"""Unable to connect to NFL Fantasy Football. 
+        Make sure the league is set to public or that you're logged into NFL.com fantasy football.
+        HTTP Request Status code = {r.status_code}""")
+
+    s = BeautifulSoup(r.content, 'html.parser')
+
+    return s
