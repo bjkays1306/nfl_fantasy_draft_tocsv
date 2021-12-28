@@ -20,6 +20,19 @@ def get_number_of_teams(league_id: int):
             return team_id_numbers
 
 
+def get_fantasy_team_names(league_id):
+    league_home_soup = gs.get_league_home(league_id)
+
+    league_home_team_names = league_home_soup.find_all('a', class_='teamName')
+
+    fantasy_team_names_dict = {}
+
+    for i in league_home_team_names:
+        fantasy_team_names_dict[int(i.attrs['href'].split('/')[-1:][0])] = i.contents[0]
+
+    return fantasy_team_names_dict
+
+
 def create_team_rosters_dict(league_id: int, number_of_teams: range):
     player_dict = {}
 
@@ -31,9 +44,6 @@ def create_team_rosters_dict(league_id: int, number_of_teams: range):
             player_id = int(i.attrs['href'].split('playerId=')[1])
             if str(i.contents[0]) != 'View News':
                 player_name = str(i.contents[0])
-            # draft_position = i.parent.parent.contents[0].contents[0].split('.')[0]
-            # draft_round = i.parent.parent.contents[0].parent.parent.parent.contents[0].contents[0].split(' ')[1]
-            # fantasy_team = i.parent.parent.contents[6].text
                 player_dict.update({player_id: {"PlayerName": player_name,
                                                 "FantasyTeamId": team_id_number}})
 
