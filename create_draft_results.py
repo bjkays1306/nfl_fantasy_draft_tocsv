@@ -21,8 +21,8 @@ def create_draft_results_dict(league_id: int):
         draft_dict.update({player_id: {"PlayerName": player_name,
                                        "DraftPosition": draft_position,
                                        "DraftRound": draft_round,
-                                       "FantasyTeam": fantasy_team,
-                                       "FantasyTeamID": fantasy_team_id}})
+                                       "FantasyDraftTeamName": fantasy_team,
+                                       "FantasyDraftTeamID": fantasy_team_id}})
 
     return draft_dict
 
@@ -35,8 +35,8 @@ def export_team_rosters_to_csv(draft_results: dict):
                          'PlayerName',
                          'DraftPosition',
                          'DraftRound',
-                         'DraftTeamID',
-                         'FantasyTeam'])
+                         'DraftingTeamID',
+                         'DraftingTeamName'])
         # Write Data
         for k, v in draft_results.items():
             writer.writerow(
@@ -44,8 +44,8 @@ def export_team_rosters_to_csv(draft_results: dict):
                  v['PlayerName'],
                  v['DraftPosition'],
                  v['DraftRound'],
-                 v['DraftTeamID'],
-                 v['FantasyTeam']])
+                 v['FantasyDraftTeamID'],
+                 v['FantasyDraftTeamName']])
 
 
 def main():
