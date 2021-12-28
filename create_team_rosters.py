@@ -35,7 +35,7 @@ def create_team_rosters_dict(league_id: int, number_of_teams: range):
             # draft_round = i.parent.parent.contents[0].parent.parent.parent.contents[0].contents[0].split(' ')[1]
             # fantasy_team = i.parent.parent.contents[6].text
                 player_dict.update({player_id: {"PlayerName": player_name,
-                                                "TeamIdNumber": team_id_number}})
+                                                "FantasyTeamId": team_id_number}})
 
     return player_dict
 
