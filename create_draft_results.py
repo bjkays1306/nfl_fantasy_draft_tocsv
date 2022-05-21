@@ -19,13 +19,15 @@ def create_draft_results_dict():
         player_name = i.contents[0]
         draft_position = i.parent.parent.contents[0].contents[0].split('.')[0]
         draft_round = i.parent.parent.contents[0].parent.parent.parent.contents[0].contents[0].split(' ')[1]
-        fantasy_team = i.parent.parent.contents[6].text
+        fantasy_team = i.parent.parent.contents[6].contents[0].text
+        fantasy_manager = i.parent.parent.contents[6].contents[1].text
         fantasy_team_id = i.parent.parent.contents[5].attrs['class'][1].split('-')[1]
         draft_dict.update({player_id: {"PlayerName": player_name,
                                        "DraftPosition": draft_position,
                                        "DraftRound": draft_round,
-                                       "FantasyDraftTeamName": fantasy_team,
-                                       "FantasyDraftTeamID": fantasy_team_id}})
+                                       "DraftingTeamName": fantasy_team,
+                                       "DraftingTeamManager": fantasy_manager,
+                                       "DraftingTeamId": fantasy_team_id}})
 
     return draft_dict
 
@@ -34,21 +36,23 @@ def export_team_rosters_to_csv(draft_results: dict):
     with open('nfl_fantasy_draft_order.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         # Create Header
-        writer.writerow(['player_id',
+        writer.writerow(['PlayerId'
                          'PlayerName',
                          'DraftPosition',
                          'DraftRound',
-                         'DraftingTeamID',
-                         'DraftingTeamName'])
+                         'DraftingTeamName',
+                         'DraftingTeamManager',
+                         'DraftingTeamId'])
         # Write Data
         for k, v in draft_results.items():
             writer.writerow(
-                [k,
+                [k,  # PlayerId
                  v['PlayerName'],
                  v['DraftPosition'],
                  v['DraftRound'],
-                 v['FantasyDraftTeamID'],
-                 v['FantasyDraftTeamName']])
+                 v['DraftingTeamName'],
+                 v['DraftingTeamManager'],
+                 v['DraftingTeamId']])
 
 
 def main():
