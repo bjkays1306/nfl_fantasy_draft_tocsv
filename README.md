@@ -12,6 +12,6 @@ This script uses beautifulsoup to scrape the public draft results page from the 
 1. Clone this repo:
 `git clone https://github.com/rclegg/nfl_fantasy_draft_tocsv`
 2. Run `pip install -r requirements.txt`
-3. Open the config.py file and set your League ID Number
-4. Run `python main.py`
+3. Open the config.py file and set your League ID Number and the year of the draft to return (if not current year)
+4. Run `python create_draft_results.py`
 
