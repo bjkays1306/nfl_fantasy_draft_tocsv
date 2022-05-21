@@ -1,12 +1,15 @@
-from util import get_soup as gs
 import csv
+import NFLSoup
 import config
 
 LEAGUE_ID = config.LEAGUE_ID
+SEASON_END_YEAR = config.SEASON_END_YEAR
+
+nfls = NFLSoup.NFLFantasyFootballSoup(league_id=LEAGUE_ID, season_end_year=SEASON_END_YEAR)
 
 
 def get_number_of_teams(league_id: int):
-    league_settings_soup = gs.get_league_settings(league_id)
+    league_settings_soup = nfls.get_league_settings(league_id)
 
     league_settings = league_settings_soup.find_all('div')
 
@@ -21,7 +24,7 @@ def get_number_of_teams(league_id: int):
 
 
 def get_fantasy_team_names(league_id):
-    league_home_soup = gs.get_league_home(league_id)
+    league_home_soup = nfls.get_league_home(league_id)
 
     league_home_team_names = league_home_soup.find_all('a', class_='teamName')
 
@@ -37,7 +40,7 @@ def create_team_rosters_dict(league_id: int, number_of_teams: range):
     player_dict = {}
 
     for team_id_number in number_of_teams:
-        team_page = gs.get_team_roster_by_team_id(league_id, team_id_number)
+        team_page = nfls.get_team_roster_by_team_id(league_id, team_id_number)
         team_page_players = team_page.find_all('a', class_='playerCard')
 
         for i in team_page_players:
