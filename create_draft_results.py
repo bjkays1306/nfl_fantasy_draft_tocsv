@@ -1,12 +1,15 @@
 import csv
-from util import get_soup as gs
+import NFLSoup
 import config
 
 LEAGUE_ID = config.LEAGUE_ID
+SEASON_END_YEAR = config.SEASON_END_YEAR
+
+nfls = NFLSoup.NFLFantasyFootballSoup(league_id=LEAGUE_ID, season_end_year=SEASON_END_YEAR)
 
 
-def create_draft_results_dict(league_id: int):
-    soup = gs.get_draft_results(league_id)
+def create_draft_results_dict():
+    soup = nfls.get_draft_results()
 
     players = soup.findAll('a', class_='playerNameFull')
 
@@ -49,5 +52,5 @@ def export_team_rosters_to_csv(draft_results: dict):
 
 
 def main():
-    draft_results_dict = create_draft_results_dict(LEAGUE_ID)
+    draft_results_dict = create_draft_results_dict()
     export_team_rosters_to_csv(draft_results_dict)
