@@ -16,18 +16,21 @@ class NFLFantasyFootballTeams(NFLFantasyFootballSoup):
         return fantasy_team_names
 
     def create_team_rosters(self) -> dict:
+        fantasy_team_names = self.get_fantasy_team_names()
         number_of_teams = self.get_number_of_teams()
         fantasy_team_rosters = {}
 
         for team_id_number in number_of_teams:
             team_page = self.get_team_roster_by_team_id(team_id=team_id_number)
             team_page_players = team_page.find_all('a', class_='playerCard')
+            fantasy_team_name = fantasy_team_names[team_id_number]
 
             for i in team_page_players:
                 player_id = int(i.attrs['href'].split('playerId=')[1])
                 if str(i.contents[0]) != 'View News':
                     player_name = str(i.contents[0])
                     fantasy_team_rosters.update({player_id: {"PlayerName": player_name,
-                                                             "FantasyTeamId": team_id_number}})
+                                                             "FantasyTeamId": team_id_number,
+                                                             "FantasyTeamName": fantasy_team_name}})
 
         return fantasy_team_rosters
