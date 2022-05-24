@@ -1,2 +1,2 @@
-# Leave the ticks on the ends of string for Python
-LEAGUE_ID = '<7 Digit League ID Number>'
+LEAGUE_ID = '<7 Digit League ID Number>'    # string
+SEASON_END_YEAR = 2021                      # int Year as YYYY
