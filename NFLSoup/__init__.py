@@ -1,3 +1,4 @@
-from .NFLFantasyFootballSoup import NFLFantasyFootballSoup
+from .NFLFantasyFootballSoup import NFLFantasyFootballSoup, LeagueConfig
+from .NFLFantasyFootballTeams import NFLFantasyFootballTeams
 
-__all__ = ['NFLFantasyFootballSoup']
+__all__ = ['LeagueConfig', 'NFLFantasyFootballSoup', 'NFLFantasyFootballTeams']
