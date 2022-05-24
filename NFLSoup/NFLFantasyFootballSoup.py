@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class NFLFantasyFootballSoup:
+class LeagueConfig:
     """
     :param season_end_year: Set a year to retrieve the season-end roster for the year. You'll especially need to do
     this after a season ends, but before the new one starts.
@@ -19,11 +19,10 @@ class NFLFantasyFootballSoup:
         self.error_message = """'Unable to connect to NFL Fantasy Football. Make sure the league is set to public or that 
         you're logged into NFL.com fantasy football.' """
 
-        self.league_home_url = f"https://fantasy.nfl.com/league/{league_id}/"
-
-        self.draft_results_url = f"https://fantasy.nfl.com/league/{league_id}/draftresults?draftResultsDetail=0&draftResultsTab=round&draftResultsType=results"
-        self.taken_players_url = f"https://fantasy.nfl.com/league/{league_id}/players?playerStatus=owned"
-        self.league_settings_url = f"https://fantasy.nfl.com/league/{league_id}/settings"
+        self.league_home_url = f"https://fantasy.nfl.com/league/{self.league_id}/"
+        self.draft_results_url = f"https://fantasy.nfl.com/league/{self.league_id}/draftresults?draftResultsDetail=0&draftResultsTab=round&draftResultsType=results"
+        self.taken_players_url = f"https://fantasy.nfl.com/league/{self.league_id}/players?playerStatus=owned"
+        self.league_settings_url = f"https://fantasy.nfl.com/league/{self.league_id}/settings"
 
         if season_end_year:
             self.season_end_year = season_end_year
@@ -39,9 +38,8 @@ class NFLFantasyFootballSoup:
 
         return s
 
-    @classmethod
-    def get_number_of_teams(cls) -> range:
-        league_settings_soup = cls.get_league_settings()
+    def get_number_of_teams(self) -> range:
+        league_settings_soup = self.get_league_settings()
 
         league_settings = league_settings_soup.find_all('div')
 
@@ -53,6 +51,9 @@ class NFLFantasyFootballSoup:
                 team_id_numbers = range(1, int(number_of_teams) + 1)
 
                 return team_id_numbers
+
+
+class NFLFantasyFootballSoup(LeagueConfig):
 
     def get_draft_results(self):
         r = requests.get(self.draft_results_url)
