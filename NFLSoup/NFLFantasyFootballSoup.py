@@ -16,9 +16,6 @@ class LeagueConfig:
         if league_id is None:
             raise BaseException("league_id is a required argument")
 
-        self.error_message = """'Unable to connect to NFL Fantasy Football. Make sure the league is set to public or that 
-        you're logged into NFL.com fantasy football.' """
-
         self.league_home_url = f"https://fantasy.nfl.com/league/{self.league_id}/"
         self.draft_results_url = f"https://fantasy.nfl.com/league/{self.league_id}/draftresults?draftResultsDetail=0&draftResultsTab=round&draftResultsType=results"
         self.taken_players_url = f"https://fantasy.nfl.com/league/{self.league_id}/players?playerStatus=owned"
@@ -28,14 +25,19 @@ class LeagueConfig:
             self.season_end_year = season_end_year
             self.draft_results_url = f"https://fantasy.nfl.com/league/{league_id}/history/{season_end_year}/draftresults?draftResultsDetail=0&draftResultsTab=round&draftResultsType=results"
 
-    def get_league_settings(self):
-        r = requests.get(self.league_settings_url)
+    @staticmethod
+    def get_request(url):
+        error_message = """'Unable to connect to NFL Fantasy Football. Make sure the league is set to public or that 
+        you're logged into NFL.com fantasy football.' """
 
+        r = requests.get(url)
         if r.status_code != 200:
-            raise ConnectionRefusedError(self.error_message)
+            raise ConnectionRefusedError(error_message)
+        return r
 
+    def get_league_settings(self):
+        r = self.get_request(self.league_settings_url)
         s = BeautifulSoup(r.content, 'html.parser')
-
         return s
 
     def get_number_of_teams(self) -> range:
@@ -56,23 +58,13 @@ class LeagueConfig:
 class NFLFantasyFootballSoup(LeagueConfig):
 
     def get_draft_results(self):
-        r = requests.get(self.draft_results_url)
-
-        if r.status_code != 200:
-            raise ConnectionRefusedError(self.error_message)
-
+        r = self.get_request(self.draft_results_url)
         s = BeautifulSoup(r.content, 'html.parser').find('div', class_='results')
-
         return s
 
     def get_all_taken_players(self):
-        r = requests.get(self.taken_players_url)
-
-        if r.status_code != 200:
-            raise ConnectionRefusedError(self.error_message)
-
+        r = self.get_request(self.taken_players_url)
         s = BeautifulSoup(r.content, 'html.parser')
-
         return s
 
     def get_team_roster_by_team_id(self, team_id=None):
@@ -82,26 +74,15 @@ class NFLFantasyFootballSoup(LeagueConfig):
          """
 
         team_roster_url = f"https://fantasy.nfl.com/league/{self.league_id}/team/{team_id}"
-
         if self.season_end_year:
             team_roster_url = f"https://fantasy.nfl.com/league/{self.league_id}/history/{self.season_end_year}/teamhome?teamId={team_id}"
 
-        r = requests.get(team_roster_url)
-
-        if r.status_code != 200:
-            raise ConnectionRefusedError(self.error_message)
-
+        r = self.get_request(team_roster_url)
         s = BeautifulSoup(r.content, 'html.parser')
-
         return s
 
     def get_league_home(self):
-        r = requests.get(self.league_home_url)
-
-        if r.status_code != 200:
-            raise ConnectionRefusedError(self.error_message)
-
+        r = self.get_request(self.league_home_url)
         s = BeautifulSoup(r.content, 'html.parser')
 
         return s
-
