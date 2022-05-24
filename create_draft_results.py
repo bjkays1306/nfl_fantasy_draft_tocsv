@@ -38,7 +38,7 @@ def export_draft_results_to_csv(draft_results: dict):
     with open('nfl_fantasy_draft_order.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         # Create Header
-        writer.writerow(['PlayerId'
+        writer.writerow(['PlayerId',
                          'PlayerName',
                          'DraftPosition',
                          'DraftRound',
