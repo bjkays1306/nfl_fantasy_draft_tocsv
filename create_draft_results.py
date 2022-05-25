@@ -19,12 +19,14 @@ def create_draft_results() -> dict:
     for i in players:
         player_id = int(i.attrs['href'].split('playerId=')[1])
         player_name = i.contents[0]
+        player_position = i.parent.contents[3].contents[0].split('-')[0].strip()
         draft_position = i.parent.parent.contents[0].contents[0].split('.')[0]
         draft_round = i.parent.parent.contents[0].parent.parent.parent.contents[0].contents[0].split(' ')[1]
         fantasy_team = i.parent.parent.contents[6].contents[0].text
         fantasy_manager = i.parent.parent.contents[6].contents[1].text
         fantasy_team_id = i.parent.parent.contents[5].attrs['class'][1].split('-')[1]
         draft_results.update({player_id: {"PlayerName": player_name,
+                                          "PlayerPosition": player_position,
                                           "DraftPosition": draft_position,
                                           "DraftRound": draft_round,
                                           "DraftingTeamName": fantasy_team,
@@ -40,6 +42,7 @@ def export_draft_results_to_csv(draft_results: dict):
         # Create Header
         writer.writerow(['PlayerId',
                          'PlayerName',
+                         'PlayerPosition',
                          'DraftPosition',
                          'DraftRound',
                          'DraftingTeamName',
@@ -50,6 +53,7 @@ def export_draft_results_to_csv(draft_results: dict):
             writer.writerow(
                 [k,  # PlayerId
                  v['PlayerName'],
+                 v['PlayerPosition'],
                  v['DraftPosition'],
                  v['DraftRound'],
                  v['DraftingTeamName'],
