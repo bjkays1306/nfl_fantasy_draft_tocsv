@@ -13,17 +13,20 @@ class LeagueConfig:
                  season_end_year: int = None):
 
         self.league_id = league_id
+        self.season_end_year = season_end_year
         if league_id is None:
             raise BaseException("league_id is a required argument")
 
         self.league_home_url = f"https://fantasy.nfl.com/league/{self.league_id}/"
         self.draft_results_url = f"https://fantasy.nfl.com/league/{self.league_id}/draftresults?draftResultsDetail=0&draftResultsTab=round&draftResultsType=results"
-        self.taken_players_url = f"https://fantasy.nfl.com/league/{self.league_id}/players?playerStatus=owned"
+        self.league_home_url = f"https://fantasy.nfl.com/league/{self.league_id}/"
         self.league_settings_url = f"https://fantasy.nfl.com/league/{self.league_id}/settings"
 
         if season_end_year:
             self.season_end_year = season_end_year
             self.draft_results_url = f"https://fantasy.nfl.com/league/{league_id}/history/{season_end_year}/draftresults?draftResultsDetail=0&draftResultsTab=round&draftResultsType=results"
+            self.league_home_url = f"https://fantasy.nfl.com/league/{league_id}/history/{season_end_year}/owners"
+            self.league_settings_url = f"https://fantasy.nfl.com/league/{league_id}/history/{season_end_year}/settings"
 
     @staticmethod
     def get_request(url):
