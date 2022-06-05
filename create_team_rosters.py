@@ -1,5 +1,5 @@
 import csv
-import NFLSoup
+import NFLFantasyFootball
 import config
 
 """Creates a CSV of up-to-date or season-end rosters for each fantasy team in the league."""
@@ -24,8 +24,8 @@ def export_team_rosters_to_csv(team_rosters: dict):
 
 
 def main():
-    rosters = NFLSoup.NFLFantasyFootballTeams(league_id=LEAGUE_ID,
-                                              season_end_year=SEASON_END_YEAR).create_team_rosters()
+    rosters = NFLFantasyFootball.LeagueTeams(league_id=LEAGUE_ID,
+                                             season_end_year=SEASON_END_YEAR).create_team_rosters()
     export_team_rosters_to_csv(rosters)
 
 

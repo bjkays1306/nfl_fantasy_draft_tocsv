@@ -1,5 +1,5 @@
 import csv
-import NFLSoup
+import NFLFantasyFootball
 import config
 
 """Creates a CSV of fantasy draft results from current draft or specified year."""
@@ -7,7 +7,7 @@ import config
 LEAGUE_ID = config.LEAGUE_ID
 SEASON_END_YEAR = config.SEASON_END_YEAR
 
-nfls = NFLSoup.NFLFantasyFootballSoup(league_id=LEAGUE_ID, season_end_year=SEASON_END_YEAR)
+nfls = NFLFantasyFootball.LeagueSoup(league_id=LEAGUE_ID, season_end_year=SEASON_END_YEAR)
 
 
 def create_draft_results() -> dict:
