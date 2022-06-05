@@ -76,6 +76,17 @@ class LeagueSoup(LeagueConfig):
         s = BeautifulSoup(r.content, 'html.parser').find('div', class_='results')
         return s
 
+    def get_team_roster_by_team_id(self) -> iter:
+
+        """Yields a tuple of TeamID and a list of players in the roster"""
+
+        team_roster_urls = self.get_team_roster_urls()
+
+        for roster_url in team_roster_urls:
+            r = self.get_request(roster_url)
+            s = BeautifulSoup(r.content, 'html.parser').find_all('a', class_='playerCard')
+            yield roster_url, s
+
     def get_league_home(self):
         r = self.get_request(self.league_home_url)
         s = BeautifulSoup(r.content, 'html.parser')
