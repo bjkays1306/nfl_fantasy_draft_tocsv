@@ -32,9 +32,11 @@ class LeagueTeams(LeagueSoup):
             fantasy_team_name = fantasy_team_names[fantasy_team_id]
             for player in i[1]:
                 player_id = int(player.attrs['href'].split('playerId=')[1])
+                player_position_team = str(player.parent.contents[3].contents[0])
                 if str(player.contents[0]) != 'View News':
                     player_name = str(player.contents[0])
                     fantasy_team_rosters.update({player_id: {"PlayerName": player_name,
+                                                             "PlayerPositionTeam": player_position_team,
                                                              "FantasyTeamId": fantasy_team_id,
                                                              "FantasyTeamName": fantasy_team_name}})
 
