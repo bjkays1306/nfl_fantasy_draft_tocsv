@@ -9,7 +9,7 @@ SEASON_END_YEAR = config.SEASON_END_YEAR
 
 
 def export_team_rosters_to_csv(team_rosters: dict):
-    with open('nfl_fantasy_player_rosters.csv', 'w', newline='') as f:
+    with open('team_rosters.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         # Create Header
         writer.writerow(['player_id',
