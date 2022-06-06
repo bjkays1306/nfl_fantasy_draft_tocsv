@@ -5,7 +5,12 @@ import config
 import create_draft_results as dr
 
 """Creates a CSV of up-to-date or season-end rosters for each fantasy team in the league AND shows those players 
-draft positions from that same season. """
+draft positions from that same season. 
+
+PlayerPosition field is the position the player played when drafted.
+PlayerPositionTeam field is the position the player plays and the NFL team abbreviation, in one column.
+
+"""
 
 LEAGUE_ID = config.LEAGUE_ID
 SEASON_END_YEAR = config.SEASON_END_YEAR
@@ -17,6 +22,8 @@ def export_draft_rosters_to_csv(draft_results: dict):
         # Create Header
         writer.writerow(['PlayerId',
                          'PlayerName',
+                         'PlayerPosition',
+                         'PlayerPositionTeam',
                          'DraftPosition',
                          'DraftRound',
                          'DraftingTeamName',
@@ -30,6 +37,8 @@ def export_draft_rosters_to_csv(draft_results: dict):
             writer.writerow(
                 [k,  # PlayerId
                  v.get('PlayerName', None),
+                 v.get('PlayerPosition', None),
+                 v.get('PlayerPositionTeam', None),
                  v.get('DraftPosition', None),
                  v.get('DraftRound', None),
                  v.get('DraftingTeamName', None),
