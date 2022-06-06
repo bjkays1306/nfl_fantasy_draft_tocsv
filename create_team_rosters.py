@@ -14,13 +14,17 @@ def export_team_rosters_to_csv(team_rosters: dict):
         # Create Header
         writer.writerow(['player_id',
                          'PlayerName',
-                         'FantasyTeamId'])
+                         'PlayerPositionTeam',
+                         'FantasyTeamId',
+                         'FantasyTeamName'])
         # Write Data
         for k, v in team_rosters.items():
             writer.writerow(
                 [k,
                  v['PlayerName'],
-                 v['FantasyTeamId']])
+                 v['PlayerPositionTeam'],
+                 v['FantasyTeamId'],
+                 v['FantasyTeamName']])
 
 
 def main():
