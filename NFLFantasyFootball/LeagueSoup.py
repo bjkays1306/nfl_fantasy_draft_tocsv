@@ -8,23 +8,20 @@ class LeagueConfig:
     this after a season ends, but before the new one starts.
     """
 
-    def __init__(self,
-                 league_id: int = None,
-                 season_end_year: int = None):
+    def __init__(self, league_id: int = None, season_end_year: int = None):
+        if league_id is None:
+            raise ValueError("league_id is a required argument")
 
         self.league_id = league_id
         self.season_end_year = season_end_year
-        if league_id is None:
-            raise BaseException("league_id is a required argument")
 
-        self.draft_results_url = f"https://fantasy.nfl.com/league/{self.league_id}/draftresults?draftResultsDetail=0&draftResultsTab=round&draftResultsType=results"
-        self.league_home_url = f"https://fantasy.nfl.com/league/{self.league_id}/"
-        self.league_settings_url = f"https://fantasy.nfl.com/league/{self.league_id}/settings"
-
+        base_url = f"https://fantasy.nfl.com/league/{self.league_id}"
         if season_end_year:
-            self.draft_results_url = f"https://fantasy.nfl.com/league/{league_id}/history/{season_end_year}/draftresults?draftResultsDetail=0&draftResultsTab=round&draftResultsType=results"
-            self.league_home_url = f"https://fantasy.nfl.com/league/{league_id}/history/{season_end_year}/owners"
-            self.league_settings_url = f"https://fantasy.nfl.com/league/{league_id}/history/{season_end_year}/settings"
+            base_url += f"/history/{season_end_year}"
+
+        self.draft_results_url = f"{base_url}/draftresults?draftResultsDetail=0&draftResultsTab=round&draftResultsType=results"
+        self.league_home_url = f"{base_url}/owners"
+        self.league_settings_url = f"{base_url}/settings"
 
     @staticmethod
     def get_request(url):
