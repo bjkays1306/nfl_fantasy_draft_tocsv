@@ -17,36 +17,19 @@ SEASON_END_YEAR = config.SEASON_END_YEAR
 
 
 def export_draft_rosters_to_csv(draft_results: dict):
+    fieldnames = ['PlayerId', 'PlayerName', 'PlayerPosition', 'PlayerPositionTeam', 'DraftPosition',
+                  'DraftRound', 'DraftingTeamName', 'DraftingTeamManager', 'DraftingTeamId',
+                  'FantasyTeamId', 'FantasyTeamName']
+
     with open('rosters_with_draft.csv', 'w', newline='') as f:
-        writer = csv.writer(f)
-        # Create Header
-        writer.writerow(['PlayerId',
-                         'PlayerName',
-                         'PlayerPosition',
-                         'PlayerPositionTeam',
-                         'DraftPosition',
-                         'DraftRound',
-                         'DraftingTeamName',
-                         'DraftingTeamManager',
-                         'DraftingTeamId',
-                         'FantasyTeamId',
-                         'FantasyTeamName'
-                         ])
-        # Write Data
-        for k, v in draft_results.items():
-            writer.writerow(
-                [k,  # PlayerId
-                 v.get('PlayerName', None),
-                 v.get('PlayerPosition', None),
-                 v.get('PlayerPositionTeam', None),
-                 v.get('DraftPosition', None),
-                 v.get('DraftRound', None),
-                 v.get('DraftingTeamName', None),
-                 v.get('DraftingTeamManager', None),
-                 v.get('DraftingTeamId', None),
-                 v.get('FantasyTeamId', None),
-                 v.get('FantasyTeamName', None)
-                 ])
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+
+        writer.writeheader()  # Write the header
+
+        for player_id, data in draft_results.items():
+            row = {'PlayerId': player_id}
+            row.update({field: data.get(field, None) for field in fieldnames[1:]})
+            writer.writerow(row)
 
 
 def main():
