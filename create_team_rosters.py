@@ -9,22 +9,21 @@ SEASON_END_YEAR = config.SEASON_END_YEAR
 
 
 def export_team_rosters_to_csv(team_rosters: dict):
+    fieldnames = ['player_id',
+                  'PlayerName',
+                  'PlayerPositionTeam',
+                  'FantasyTeamId',
+                  'FantasyTeamName']
+
     with open('team_rosters.csv', 'w', newline='') as f:
-        writer = csv.writer(f)
-        # Create Header
-        writer.writerow(['player_id',
-                         'PlayerName',
-                         'PlayerPositionTeam',
-                         'FantasyTeamId',
-                         'FantasyTeamName'])
-        # Write Data
-        for k, v in team_rosters.items():
-            writer.writerow(
-                [k,
-                 v['PlayerName'],
-                 v['PlayerPositionTeam'],
-                 v['FantasyTeamId'],
-                 v['FantasyTeamName']])
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+
+        writer.writeheader()
+
+        for player_id, data in team_rosters.items():
+            row = {'player_id': player_id}
+            row.update(data)
+            writer.writerow(row)
 
 
 def main():
