@@ -37,28 +37,24 @@ def create_draft_results() -> dict:
 
 
 def export_draft_results_to_csv(draft_results: dict):
+    fieldnames = ['PlayerId',
+                  'PlayerName',
+                  'PlayerPosition',
+                  'DraftPosition',
+                  'DraftRound',
+                  'DraftingTeamName',
+                  'DraftingTeamManager',
+                  'DraftingTeamId']
+
     with open('draft_results.csv', 'w', newline='') as f:
-        writer = csv.writer(f)
-        # Create Header
-        writer.writerow(['PlayerId',
-                         'PlayerName',
-                         'PlayerPosition',
-                         'DraftPosition',
-                         'DraftRound',
-                         'DraftingTeamName',
-                         'DraftingTeamManager',
-                         'DraftingTeamId'])
-        # Write Data
-        for k, v in draft_results.items():
-            writer.writerow(
-                [k,  # PlayerId
-                 v['PlayerName'],
-                 v['PlayerPosition'],
-                 v['DraftPosition'],
-                 v['DraftRound'],
-                 v['DraftingTeamName'],
-                 v['DraftingTeamManager'],
-                 v['DraftingTeamId']])
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+
+        writer.writeheader()
+
+        for player_id, data in draft_results.items():
+            row = {'PlayerId': player_id}
+            row.update(data)
+            writer.writerow(row)
 
 
 def main():
